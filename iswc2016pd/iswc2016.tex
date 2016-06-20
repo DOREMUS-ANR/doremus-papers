@@ -41,9 +41,9 @@
 
 \section{Introduction and Motivation}
 
--- The Doremus project,
+-- The Doremus project: talk about the model \ref{} and the controlled vocabularies \ref{} because we need this info in next section
 
--- the input data,
+-- the input data, 
 
 -- why it is important to convert these data to RDF (impact, number of institutions using this format).
 
@@ -53,9 +53,13 @@
 
 \section{RDF Conversion and Interconnexion}
 
--- The principle of conversion based on mapping rules ... MARC2RDF
+The data collected from the BnF and the Philharmonie describing musical works are given in the MARC format, and more precisely, its variants UNIMARC and INTERMARC, respectively. A MARC file is a succession of fields, each carrying a label (a three-digit number). Each field, in turn, is a succession of subfields, delimited by the \$ symbol, as shown in Fig.\ref{}. The semantics of the fields and subfields is described in different documents\footnote{url}, according to the MARC variant. Note that a subfield tag can change its meaning depending on the field in which it is found. 
 
--- The controlled vocabularies and String2URI
+We have developed an open source prototype that allows for the automatic conversion of bibliographical regards given in UNI- or INTERMARC to RDF\footnote{url to the github repo}. The particularity of this converter is that it implements the DOREMUS model. The conversion process relies on explicit expert defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing its corresponding property path in the model as well as a useful examples that illustrate each transfer rule, as shown in Fg. \ref{} (slide 28, from the Sowedo talk). The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts. We have used the DOREMUS properties to name the extracted relations (as for example mus:U12$\_$has$\_$genre, using the ``mus" prefix for http://data.deremus.org/ontology/, labeling the property describing the genre of a music work). The resources are identified by URIs that use the corresponding DOREMUS class labels in their names (as for example http://data/doremus.org/expression/UUID identifying an instance of the classe "Expression"). 
+
+Often the RDF data that we extract will contain string literal values, such as genres, instruments, tonalities and other. As introduced above, these values are controlled by specific vocabulaires, such as the MIMO vocabulary \ref{} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. We have used the string2uri mapper, relying on various string matching techniques \ref{}.
+
+An example of a converted MARC record is given in FIg. \ref{}.  
 
 -- Interconnexion: based on Silk
 
