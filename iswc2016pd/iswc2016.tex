@@ -17,11 +17,10 @@
 \begin{document}
 
 \title{OVERTURE}
-%alternative title: Dataset recommendation for data interlinking - a topic-based approach
 
 \titlerunning{OVERTURE}
 
-\author{Manel Achichi$^1$, Pasquale Lisena$^2$, Eva Fern\'{a}ndez$^2$, Wafa Bouneb$^2$, Konstantin Todorov$^1$, Rapha\"{e}l Troncy$^2$}
+\author{Manel Achichi$^1$, Pasquale Lisena$^2$, Eva Fern\'{a}ndez$^2$, Wafa Bouneb$^2$, \\ Konstantin Todorov$^1$, Rapha\"{e}l Troncy$^2$}
 \authorrunning{Achichi \textit{et al.}}
 \institute{$^1$University of Montpellier, France\\ $^2$EURECOM, Sophia Antipolis, France}
 
@@ -32,6 +31,7 @@
 %%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
+In this paper, we introduce OVERTURE---an application for navigation and exploration of the catalogs of major music bibliographic agencies, including the French National Library, Radio France and the Philharmonie de Paris. The application is based on the marc2rdf prototype, developed for this purpose and allowing for the conversion of bibliographical entries about music works, interpretations and expressions from their original MARC format to RDF, following the DOREMUS model, an extension of the well-known FRBRoo model. 
 
 \end{abstract}
 
@@ -91,7 +91,7 @@ An interface screenshot(s), a link to a demo video + download
 
 \section{Conclusion and Future Work}
 
-linking functionalities (?)
+We are currently working on the development of connectors for music works, allowing for the automatic interlinking of equivalent resources across datasets of different bibliographical agencies. Our first test with the SILK \cite{} and LIMES \cite{} tools confirm our initial hypothesis that new methods, specific to the music field, need to be proposed, able to handle the high heterogeneity of these datasets. In particular, our first tests show that special attention has to be payed to multilingual descriptions of works, as well as to significant differences in lexical descriptions of music titles. Descriptive heterogeneities (level of detail, amount of information available) also appear to be hard to handle by the existing general purpose off-the-shelf linking tools. We plan to combine expert heuristics with an automatic heterogeneity centered data linking approach. Finally, the developed connectors will be integrated to the OVERTURE application, allowing for the automatic navigation from one dataset to another bringing to the user the richness of several connected datasets.
 
 \section*{Acknowledgments}
 This work has been partially supported by the French National Research Agency (ANR) within the DOREMUS Project, under grant number ANR-14-CE24-0020.
