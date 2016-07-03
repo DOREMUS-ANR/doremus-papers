@@ -16,9 +16,9 @@
 
 \begin{document}
 
-\title{OVERTURE}
+\title{A title}
 
-\titlerunning{OVERTURE}
+\titlerunning{A title}
 
 \author{Manel Achichi$^1$, Pasquale Lisena$^2$, Eva Fern\'{a}ndez$^2$, Wafa Bouneb$^2$, \\ Konstantin Todorov$^1$, Rapha\"{e}l Troncy$^2$}
 \authorrunning{Achichi \textit{et al.}}
@@ -31,29 +31,29 @@
 %%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
-In this paper, we introduce OVERTURE---an application allowing to explore the catalogs of major music bibliographic agencies, including the French National Library, Radio France and the Philharmonie de Paris. The application is based on the {\it marc2rdf} prototype, developed for this purpose and allowing for the conversion of bibliographical entries about music works, interpretations and expressions from their original MARC-format to RDF, following the DOREMUS model, an extension of the well-known FRBRoo model. 
-
+In this paper, we introduce OVERTURE---an application allowing to explore the catalogs of major music bibliographic agencies, including the French National Library, Radio France and the Philharmonie de Paris. The application is based on the {\it marc2rdf} prototype, developed for this purpose and allowing for the conversion of bibliographical entries about music works, interpretations and expressions from their original MARC-format to RDF, following the DOREMUS model, an extension of the well-known FRBRoo model.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %%%  1. Introduction  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Introduction and Motivation}
+\section{Introduction}
+\label{sec:introduction}
 
 -- The Doremus project: talk about the model \ref{} and the controlled vocabularies \ref{} because we need this info in next section
 
--- the input data, 
+-- the input data,
 
 -- why it is important to convert these data to RDF (impact, number of institutions using this format).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  2. RDF Conversion and Interconnexion  %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  2. Converting Music Metadata to RDF  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Converting Bibliographic Data to DOREMUS RDF}
-
-The data collected from the BnF and the Philharmonie de Paris describing music works are given in the MARC format, and more precisely, its variants UNIMARC and INTERMARC, respectively. A MARC file is a succession of fields, each carrying a label (a three-digit number). Each field, in turn, is a succession of subfields, delimited by the \$ symbol, as shown in Fig. \ref{fig:unimarc}. The semantics of the fields and subfields is described in various documents issued by The International Federation of Library Associations and Institutions  (IFLA)\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}, according to the MARC variant. Note that a subfield tag can change its meaning depending on the field in which it is found. For instance, in the example in Fig. \ref{fig:unimarc}, the combination of the field 500 and the \$a tag stands for the musical genre (sonata in this case), whereas the same tag under the field 700 stands for the composer name (Beethoven).
+\section{Converting Music Metadata to RDF}
+\label{sec:conversion}
+The data collected from the BnF and the Philharmonie de Paris describing music works are given in the MARC format, and more precisely, its UNIMARC and INTERMARC variants. A MARC file is a succession of fields, each carrying a label (a three-digit number). Each field, in turn, is a succession of subfields, delimited by the \$ symbol, as shown in Fig.~\ref{fig:unimarc}. The semantics of the fields and subfields is described in various documents issued by The International Federation of Library Associations and Institutions (IFLA)\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}, according to the MARC variant. Note that a subfield tag can change its meaning depending on the field in which it is found. For instance, in the example in Fig.~\ref{fig:unimarc}, the combination of the field 500 and the \$a tag stands for the musical genre (sonata in this case), whereas the same tag under the field 700 stands for the composer name (Beethoven).
 
 \begin{figure}
   \centering
@@ -62,7 +62,7 @@ The data collected from the BnF and the Philharmonie de Paris describing music w
   \label{fig:unimarc}
 \end{figure}
 
-We have developed an open source prototype that allows for the automatic conversion of bibliographic records given in UNI- or INTERMARC to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}. One of the particularities of this converter is that it implements the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing its corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fg. \ref{fig:mappings}. The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts. We have used the DOREMUS properties to name the extracted relations (as for example mus:U12$\_$has$\_$genre, using the ``mus" prefix for http://data.deremus.org/ontology/, labeling the property describing the genre of a music work). The resources are identified by URIs that use the corresponding DOREMUS class labels in their names (as for example http://data/doremus.org/expression/UUID identifying in an unique manner an instance of the DOREMUS classe "Expression"). 
+We have developed an open source prototype that allows for the automatic conversion of bibliographic records given in UNI- or INTERMARC to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}. One of the particularities of this converter is that it implements the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing its corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fig.~\ref{fig:mappings}. The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts. We have used the DOREMUS properties to name the extracted relations (as for example \texttt{mus:U12$\_$has$\_$genre}\footnote{The \texttt{mus} prefix refers to \url{http://data.deremus.org/ontology/}}, labeling the property describing the genre of a music work). The resources are identified by URIs that use the corresponding DOREMUS class labels in their names (as for example \url{http://data/doremus.org/expression/UUID} identifying in an unique manner an instance of the FRBRoo class \texttt{Expression}).
 
 \begin{figure}
   \centering
@@ -71,9 +71,9 @@ We have developed an open source prototype that allows for the automatic convers
   \label{fig:mappings}
 \end{figure}
 
-Often the RDF data that we extract will contain string literal values, such as genres (sonata), instruments (piano), tonalities (D-major) and other. As introduced above, these values are controlled by specific vocabulaires, such as the MIMO vocabulary \ref{} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. We have used the string2uri mapper, relying on various string matching techniques \ref{}.
+Often, the RDF data that we extract will contain string literal values, such as genres (sonata), instruments (piano), tonalities (D-major) and other. As introduced above, these values are controlled by specific vocabularies, such as the MIMO vocabulary \ref{} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. We have used the string2uri mapper, relying on various string matching techniques \ref{}.
 
-An example of a converted MARC record is given in Fig. \ref{}.  
+An example of a converted MARC record is given in Fig. \ref{}.
 
 -- Interconnexion: based on Silk
 
@@ -82,24 +82,22 @@ An example of a converted MARC record is given in Fig. \ref{}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{OVERTURE: an Exploratory Search Engine for Music}
-
+\label{sec:overture}
 An interface screenshot(s), a link to a demo video + download
 
-\begin{figure}
-  \centering
-  \includegraphics[width=11cm]{img/overture-list.png}
-  \caption{Overture interface: the search form and results.}
-  \label{fig:overture-list}
-\end{figure}
-
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=11cm]{img/overture-list.png}
+%  \caption{Overture interface: the search form and results.}
+%  \label{fig:overture-list}
+%\end{figure}
 
 \begin{figure}
   \centering
   \includegraphics[width=11cm]{img/overture-detail.png}
-  \caption{Overture interface: the Expression.}
+  \caption{Overture: Browsing Expression ...}
   \label{fig:overture-detail}
 \end{figure}
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -107,7 +105,7 @@ An interface screenshot(s), a link to a demo video + download
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusion and Future Work}
-
+\label{sec:conclusion}
 We are currently working on the development of connectors for music works, allowing for the automatic interlinking of equivalent resources across datasets of different bibliographical agencies. Our first test with the SILK \cite{} and LIMES \cite{} tools confirm our initial hypothesis that new methods, specific to the music field, need to be proposed, able to handle the high heterogeneity of these datasets. In particular, our first tests show that special attention has to be payed to multilingual descriptions of works, as well as to significant differences in lexical descriptions of music titles. Descriptive heterogeneities (level of detail, amount of information available) also appear to be hard to handle by the existing general purpose off-the-shelf linking tools. We plan to combine expert heuristics with an automatic heterogeneity centered data linking approach. Finally, the developed connectors will be integrated to the OVERTURE application, allowing for the automatic navigation from one dataset to another bringing to the user the richness of several connected datasets.
 
 \section*{Acknowledgments}
