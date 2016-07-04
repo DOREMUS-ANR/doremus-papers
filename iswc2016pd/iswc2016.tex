@@ -71,9 +71,9 @@ We have developed an open source prototype that allows for the automatic convers
   \label{fig:mappings}
 \end{figure}
 
-Often, the RDF data that we extract will contain string literal values, such as genres ({\it sonata}), instruments ({\it piano}), tonalities ({\it D-major}) and other. As introduced above, these values are controlled by specific vocabularies, such as the MIMO vocabulary\footnote{\url{http://www.mimo-international.com/vocabulary.html}} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. We have used the {\tt string2uri} mapper, relying on various string matching techniques\footnote{\url{https://github.com/ThibWeb/stringtouri}}.
+Often, the RDF data that we extract will contain string literal values, such as genres ({\it sonata}), instruments ({\it piano}) or tonalities ({\it D-major}). As introduced above, these values are controlled by specific vocabularies, such as the MIMO vocabulary\footnote{\url{http://www.mimo-international.com/vocabulary.html}} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. Inspired by the Datalift platform~\cite{datalift}, we have developed a generic \texttt{string2uri} component enabling to lookup strings in a SKOS controlled vocabulary and to propose best candidate match.
 
-An example of a converted MARC record is given in Fig. \ref{}. %Not sure we need an example.
+%An example of a converted MARC record is given in Fig. \ref{}. %Not sure we need an example.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%  3. OVERTURE: an Exploratory Search Engine for Music  %%%
@@ -81,16 +81,6 @@ An example of a converted MARC record is given in Fig. \ref{}. %Not sure we need
 
 \section{OVERTURE: an Exploratory Search Engine for Music}
 \label{sec:overture}
-
-
-
-%\begin{figure}
-%  \centering
-%  \includegraphics[width=11cm]{img/overture-list.png}
-%  \caption{Overture interface: the search form and results.}
-%  \label{fig:overture-list}
-%\end{figure}
-
 \begin{figure}
   \centering
   \includegraphics[width=11cm]{img/overture-detail.png}
@@ -98,18 +88,15 @@ An example of a converted MARC record is given in Fig. \ref{}. %Not sure we need
   \label{fig:overture-detail}
 \end{figure}
 
-OVERTURE (Ontology-driVen Exploration and Recommendation of mUsical REcords) has been developed as a modern web application. Its Node.JS server sits in front of a Virtuoso repository, in which we store the results of the conversion, and retrieves the information from it through SPARQL queries.
+OVERTURE (Ontology-driVen Exploration and Recommendation of mUsical REcords) is a modern web application that relied on a Node.JS server sitting in front of a Virtuoso triple store where all the data has been loaded. The web application performs SPARQL queries to access the data. Figure~\ref{fig:overture-detail} shows the user interface realized with AngularJS. On top, a navigation bar directs the user towards one of the main concepts in the DOREMUS model (Work, Expression, Performance, Recording, Score, Person), that become distinct sections of the application. Inside each section, the user can filter the list of records shown in a class-specific and advanced search form. In this way, (s)he can search a performance by choosing a particular location, a performer, or an expression by selecting the musical key, the genre or by searching by title. From these parameters, the server generates the SPARQL query that matches the user information need (Figure~\ref{fig:sparql}).
 
-Figure \ref{fig:overture-detail} shows the user interfaces realized with AngularJS. On top, a navigation bar directs the user towards one of the main concepts in the DOREMUS model (Work, Expression, Performance, Recording, Score, Person), that become distinct sections of the application. Inside each section, the user can filter the list of records shown in a class-specific and advanced search form. In this way, (s)he can search a performance by choosing a particular location,a performer, or an expression by selecting the musical key, the genre or by writing its title. From these parameters, the server generates the SPARQL query that matches the user information need (Figure \ref{fig:sparql}). 
-
-Clicking on a result, more details are shown like the information about the composer, the casting and a longer descriptive note. Beside it, a selection of different expressions is shown; in future, this selection will contain related expressions, selected through a reccomandation algorithm.
-
+Clicking on a result, more details are shown like the information about the composer, the casting and a longer descriptive note. Beside it, a selection of different expressions is shown. In the future, this selection will contain related expressions, selected through a recommendation algorithm.
 \begin{figure}
 \centering
 \begin{verbatim}
 SELECT ?expressions ?title
 WHERE {
-    ?expressions a  frbroo:F22_Self-Contained_Expression ;
+    ?expressions a frbroo:F22_Self-Contained_Expression ;
         cidoc:P102_has_title ?title .
         mus:U12_has_genre <http://data.doremus.org/vocabulary/genre/si>
 }
@@ -126,9 +113,9 @@ WHERE {
 
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
-We are currently working on the development of connectors for music works, allowing for the automatic interlinking of equivalent resources across datasets of different bibliographical agencies. Our first test with the SILK \cite{jentzsch2010silk} and LIMES \cite{ngomo2011limes} tools confirm our initial hypothesis that new methods, specific to the music field, need to be proposed, able to handle the high heterogeneity of these datasets. In particular, our first tests show that special attention has to be payed to multilingual descriptions of works, as well as to significant differences in lexical descriptions of music titles. Descriptive heterogeneities (level of detail, amount of information available) also appear to be hard to handle by the existing general purpose off-the-shelf linking tools. We plan to combine expert heuristics with an automatic heterogeneity centered data linking approach. Finally, the developed connectors will be integrated to the OVERTURE application, allowing for the automatic navigation from one dataset to another bringing to the user the richness of several connected datasets.
+We are currently working on the development of connectors for music works, allowing for the automatic interlinking of equivalent resources across datasets of different bibliographical agencies. Our first test with the SILK \cite{jentzsch2010silk} and LIMES \cite{ngomo2011limes} tools confirm our initial hypothesis that new methods, specific to the music field, need to be proposed, in order to handle the high heterogeneity of these datasets. In particular, our first tests show that special attention has to be payed to multilingual descriptions of works, as well as to significant differences in lexical descriptions of music titles. Descriptive heterogeneities (level of detail, amount of information available) also appear to be hard to handle by the existing general purpose off-the-shelf linking tools. We plan to combine expert heuristics with an automatic heterogeneity centered data linking approach. Finally, the developed connectors will be integrated to the OVERTURE application, allowing for the automatic navigation from one dataset to another bringing to the user the richness of several connected datasets.
 
-Recommendaiton ?
+%Recommendation ?
 
 \section*{Acknowledgments}
 This work has been partially supported by the French National Research Agency (ANR) within the DOREMUS Project, under grant number ANR-14-CE24-0020.
