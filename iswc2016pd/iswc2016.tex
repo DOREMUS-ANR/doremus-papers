@@ -81,7 +81,8 @@ An example of a converted MARC record is given in Fig. \ref{}. %Not sure we need
 
 \section{OVERTURE: an Exploratory Search Engine for Music}
 \label{sec:overture}
-An interface screenshot(s), a link to a demo video + download
+
+
 
 %\begin{figure}
 %  \centering
@@ -97,6 +98,27 @@ An interface screenshot(s), a link to a demo video + download
   \label{fig:overture-detail}
 \end{figure}
 
+OVERTURE (Ontology-driVen Exploration and Recommendation of mUsical REcords) has been developed as a modern web application. Its Node.JS server sits in front of a Virtuoso repository, in which we stored the results of the conversion, and retrieves the information from it through SPARQL queries.
+
+Figure \ref{fig:overture-detail} shows the user interfaces realized with AngularJS. On top, a navigation bar directs the user towards one of the main concepts in the Doremus model (Work, Expression, Performance, Recording, Score, Person), that become distinct section of the application. Inside the section, the user can filter the list of record shown through a class-specific an advanced search form. In this way, he can search a performance by choosing a particular location or performer, or an expression by selecting the musical key, the genre or writing its title. From this parameters, the server generates the SPARQL query that matches user search (Figure \ref{fig:sparql}). 
+
+Clicking on a result, more details are shown like the information about the composer, the casting and a longer descriptive note. Besides it, a selection of different expressions is shown; as future work, this selection will contain related expressions, selected through a reccomandation algorithm.
+
+\begin{figure}
+\centering
+\begin{verbatim}
+SELECT ?expressions ?title
+WHERE {
+    ?expressions a  frbroo:F22_Self-Contained_Expression ;
+        cidoc:P102_has_title ?title .
+        mus:U12_has_genre <http://data.doremus.org/vocabulary/genre/si>
+}
+\end{verbatim}
+\caption{Overture: A simplified example of the SPARQL query that extracts the titles of expressions that have the genre "symphony".}
+\label{fig:sparql}
+\end{figure}
+
+% TODO link to demo video
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%  4. Conclusion and Future Work  %%%
