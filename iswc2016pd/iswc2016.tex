@@ -76,6 +76,14 @@ Often, the RDF data that we extract will contain string literal values, such as 
 %An example of a converted MARC record is given in Fig. \ref{}. %Not sure we need an example.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  3.Data linking  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Data Heterogeneities and Linking}
+
+Music data are highly heterogeneous -- a given music work can be described in many different ways across institutions, which makes data linking difficult. We have collected benchmark data from the BnF and the PP, now part of the OAEI instance matching evaluation campagne\footnote{\url{http://islab.di.unimi.it/content/im_oaei/2016/#doremus}}. Our tests with the SILK \cite{jentzsch2010silk} and LIMES \cite{ngomo2011limes} tools, achieving an average F-measure of around 55\% on the Doremus data, confirm our initial hypothesis that new methods, specific to the music field, need to be proposed, in order to handle the high heterogeneity of these datasets. In particular, special attention has to be payed to multilingual descriptions of works, as well as to significant differences in lexical descriptions of work titles. Descriptive heterogeneities (level of detail, amount of information available) also appear to be hard to handle by the existing general purpose linking tools. We are currently developing a linking approach that combines expert heuristics with indexing techniques that is able to propose a solution according to the heterogeneity type manifested by the data.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%  3. OVERTURE: an Exploratory Search Engine for Music  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -113,7 +121,9 @@ WHERE {
 
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
-We are currently working on the development of connectors for music works, allowing for the automatic interlinking of equivalent resources across datasets of different bibliographical agencies. Our first test with the SILK \cite{jentzsch2010silk} and LIMES \cite{ngomo2011limes} tools confirm our initial hypothesis that new methods, specific to the music field, need to be proposed, in order to handle the high heterogeneity of these datasets. In particular, our first tests show that special attention has to be payed to multilingual descriptions of works, as well as to significant differences in lexical descriptions of music titles. Descriptive heterogeneities (level of detail, amount of information available) also appear to be hard to handle by the existing general purpose off-the-shelf linking tools. We plan to combine expert heuristics with an automatic heterogeneity centered data linking approach. Finally, the developed connectors will be integrated to the OVERTURE application, allowing for the automatic navigation from one dataset to another bringing to the user the richness of several connected datasets.
+
+
+%We are currently working on the development of connectors for music works, allowing for the automatic interlinking of equivalent resources across datasets of different bibliographical agencies. Our first test with the SILK \cite{jentzsch2010silk} and LIMES \cite{ngomo2011limes} tools confirm our initial hypothesis that new methods, specific to the music field, need to be proposed, in order to handle the high heterogeneity of these datasets. In particular, our first tests show that special attention has to be payed to multilingual descriptions of works, as well as to significant differences in lexical descriptions of music titles. Descriptive heterogeneities (level of detail, amount of information available) also appear to be hard to handle by the existing general purpose off-the-shelf linking tools. We plan to combine expert heuristics with an automatic heterogeneity centered data linking approach. Finally, the developed connectors will be integrated to the OVERTURE application, allowing for the automatic navigation from one dataset to another bringing to the user the richness of several connected datasets.
 
 %Recommendation ?
 
