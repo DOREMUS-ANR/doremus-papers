@@ -21,7 +21,7 @@
 \titlerunning{A title}
 
 \author{Manel Achichi$^1$, Pasquale Lisena$^2$, Eva Fern\'{a}ndez$^2$, Wafa Bouneb$^2$, \\ Konstantin Todorov$^1$, Rapha\"{e}l Troncy$^2$}
-\authorrunning{Achichi \textit{et al.}}
+\authorrunning{Achichi, Lisena \textit{et al.}}
 \institute{$^1$University of Montpellier, France\\ $^2$EURECOM, Sophia Antipolis, France}
 
 \maketitle
@@ -54,16 +54,20 @@ In this paper, we introduce OVERTURE---an application allowing to explore the ca
 \section{Converting Music Metadata to RDF}
 \label{sec:conversion}
 
-The data collected from the BnF and the Philharmonie de Paris describing music works are given in the MARC format, and more precisely, its UNIMARC and INTERMARC variants. A MARC file is a succession of fields, each carrying a label (a three-digit number). Each field, in turn, is a succession of subfields, delimited by the \$ symbol, as shown in Fig.~\ref{fig:unimarc}. The semantics of the fields and subfields is described in various documents issued by The International Federation of Library Associations and Institutions (IFLA)\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}, according to the MARC variant. Note that a subfield tag can change its meaning depending on the field in which it is found. For instance, in the example in Fig.~\ref{fig:unimarc}, the combination of the field 500 and the \$a tag stands for the musical genre (sonata in this case), whereas the same tag under the field 700 stands for the composer name (Beethoven).
+\section{Converting Music Metadata to RDF}
+\label{sec:conversion}
+The data collected from the BnF and the Philharmonie de Paris (PP) describing music works are given in the MARC format, and more precisely, its UNIMARC and INTERMARC variants. A MARC file is a succession of fields, each carrying a label (a three-digit number) and subfields, delimited by the \$ symbol, as shown in Fig.~\ref{fig:unimarc}. The semantics of these fields and subfields is described in various documents issued by The International Federation of Library Associations and Institutions (IFLA)\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}. %, according to the MARC variant. 
+Note that a subfield tag can change its meaning depending on the field under which it is found. In the example in Fig.~\ref{fig:unimarc}, the combination of the field 500 with the \$a tag stands for the musical genre (sonata in this case), whereas the same tag under the field 700 stands for the composer name (Beethoven).
 
 \begin{figure}
   \centering
-  \includegraphics[width=10cm]{img/marc-exmpl-simple.png}
+  \includegraphics[width=8cm]{img/marc-exmpl-simple.png}
   \caption{An excerpt of a UNIMARC record.}
   \label{fig:unimarc}
 \end{figure}
 
-We have developed an open source prototype that allows for the automatic conversion of bibliographic records given in UNI- or INTERMARC to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}. One of the particularities of this converter is that it implements the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing its corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fig.~\ref{fig:mappings}. The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts. We have used the DOREMUS properties to name the extracted relations (as for example \texttt{mus:U12$\_$has$\_$genre}\footnote{The \texttt{mus} prefix refers to \url{http://data.deremus.org/ontology/}}, labeling the property describing the genre of a music work). The resources are identified by URIs that use the corresponding DOREMUS class labels in their names (as for example \url{http://data/doremus.org/expression/UUID} identifying in an unique manner an instance of the FRBRoo class \texttt{Expression}).
+We have developed an open source prototype that allows for the automatic conversion of bibliographic records given in UNI- or INTERMARC to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}, implementing the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing its corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fig.~\ref{fig:mappings}. %The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts. 
+We have used the DOREMUS properties to name the extracted relations (as for example \texttt{mus:U12$\_$has$\_$genre}\footnote{The \texttt{mus} prefix refers to \url{http://data.deremus.org/ontology/}}, labeling the property describing the genre of a work). The resources are identified by URIs that use the corresponding DOREMUS class labels in their names (as for example \url{http://data/doremus.org/expression/UUID} identifying uniquely an instance of the FRBRoo class \texttt{Expression}).
 
 \begin{figure}
   \centering
@@ -72,8 +76,7 @@ We have developed an open source prototype that allows for the automatic convers
   \label{fig:mappings}
 \end{figure}
 
-Often, the RDF data that we extract will contain string literal values, such as genres ({\it sonata}), instruments ({\it piano}) or tonalities ({\it D-major}). As introduced above, these values are controlled by specific vocabularies, such as the MIMO vocabulary\footnote{\url{http://www.mimo-international.com/vocabulary.html}} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. Inspired by the Datalift platform~\cite{datalift}, we have developed a generic \texttt{string2uri} component enabling to lookup strings in a SKOS controlled vocabulary and to propose best candidate match.
-
+Often, the RDF data that we extract will contain string literal values, such as genres ({\it sonata}) or instruments ({\it piano}). These values are controlled by specific vocabularies, such as the MIMO vocabulary\footnote{\url{http://www.mimo-international.com/vocabulary.html}} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. Inspired by the Datalift platform~\cite{datalift}, we have developed a generic \texttt{string2uri} component enabling to lookup strings in a SKOS controlled vocabulary and to propose best candidate match.
 %An example of a converted MARC record is given in Fig. \ref{}. %Not sure we need an example.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
