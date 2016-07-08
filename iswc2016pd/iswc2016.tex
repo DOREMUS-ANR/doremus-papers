@@ -1,6 +1,6 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  ISWC 2016 Demo:   %%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  ISWC 2016 Demo: Exploring Linked Classical Music Catalogs with OVERTURE  %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[runningheads,a4paper]{llncs}
 \usepackage{graphicx}
@@ -16,16 +16,12 @@
 
 \begin{document}
 
-\title{A title}
+\title{Exploring Linked Classical Music Catalogs with OVERTURE}
+\titlerunning{Exploring Linked Classical Music Catalogs with OVERTURE}
 
-% Exploring Linked Music Catalogs with OVERTURE 
-% 
-
-\titlerunning{A title}
-
-\author{Manel Achichi$^1$, Pasquale Lisena$^2$, Eva Fern\'{a}ndez$^2$, Wafa Bouneb$^2$, \\ Konstantin Todorov$^1$, Rapha\"{e}l Troncy$^2$}
-\authorrunning{Achichi, Lisena \textit{et al.}}
-\institute{$^1$University of Montpellier, France\\ $^2$EURECOM, Sophia Antipolis, France}
+\author{Pasquale Lisena$^1$, Manel Achichi$^2$, Eva Fern\'{a}ndez$^1$, Wafa Bouneb$^1$, \\ Konstantin Todorov$^2$, Rapha\"{e}l Troncy$^1$}
+\authorrunning{Lisena \textit{et al.}}
+\institute{$^1$EURECOM, Sophia Antipolis, France\\$^2$University of Montpellier, France}
 
 \maketitle
 
@@ -60,10 +56,10 @@ In this paper, we introduce OVERTURE---an application allowing to explore the ca
 
 \paragraph{{\bf Data Conversion.}}
 
-The data collected from the BnF and the Philharmonie de Paris (PP) describing music works are given in the MARC format, precisely its UNI-- and INTERMARC variants. A MARC file is a succession of fields, each carrying a 3-digit label, and subfields, delimited by the \$ symbol (Fig.~\ref{fig:unimarc}). The semantics of these fields and subfields is described in documents issued by The International Federation of Library Associations and Institutions\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}. %, according to the MARC variant. 
+The data collected from the BnF and the Philharmonie de Paris (PP) describing music works are given in the MARC format, precisely its UNI-- and INTERMARC variants. A MARC file is a succession of fields, each carrying a 3-digit label, and subfields, delimited by the \$ symbol (Fig.~\ref{fig:unimarc}). The semantics of these fields and subfields is described in documents issued by The International Federation of Library Associations and Institutions\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}. %, according to the MARC variant.
 Note that a subfield tag can change its meaning depending on the field, under which it is found. In our example (Fig.~\ref{fig:unimarc}), the \$a tag under the field 500 stands for the musical genre (sonata in this case), whereas the same tag under the field 700 stands for the composer name (Beethoven).
 
-We have developed an open source prototype that allows for the automatic conversion of UNI- or INTERMARC bibliographic records to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}, implementing the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing the corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fig.~\ref{fig:mappings}. %The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts. 
+We have developed an open source prototype that allows for the automatic conversion of UNI- or INTERMARC bibliographic records to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}, implementing the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing the corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fig.~\ref{fig:mappings}. %The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts.
 We have used the DOREMUS properties to name the extracted relations (as for example \texttt{mus:U12$\_$has$\_$genre}\footnote{The \texttt{mus} prefix refers to \url{http://data.deremus.org/ontology/}}, labeling the property describing the genre of a work).  Resources are identified by URIs that use the corresponding DOREMUS class labels in their names (as for example \url{http://data/doremus.org/expression/UUID} identifying an instance of the FRBRoo class \texttt{Expression}).
 
 \begin{figure}
@@ -108,7 +104,7 @@ Due to the high data heterogeneity, link discovery in the musical field becomes 
 
 %\section{Converting Music Metadata to RDF}
 %\label{sec:conversion}
-%The data collected from the BnF and the Philharmonie de Paris (PP) describing music works are given in the MARC format, and more precisely, its UNIMARC and INTERMARC variants. A MARC file is a succession of fields, each carrying a label (a three-digit number) and subfields, delimited by the \$ symbol, as shown in Fig.~\ref{fig:unimarc}. The semantics of these fields and subfields is described in various documents issued by The International Federation of Library Associations and Institutions (IFLA)\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}. %, according to the MARC variant. 
+%The data collected from the BnF and the Philharmonie de Paris (PP) describing music works are given in the MARC format, and more precisely, its UNIMARC and INTERMARC variants. A MARC file is a succession of fields, each carrying a label (a three-digit number) and subfields, delimited by the \$ symbol, as shown in Fig.~\ref{fig:unimarc}. The semantics of these fields and subfields is described in various documents issued by The International Federation of Library Associations and Institutions (IFLA)\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}. %, according to the MARC variant.
 %Note that a subfield tag can change its meaning depending on the field under which it is found. In the example in Fig.~\ref{fig:unimarc}, the combination of the field 500 with the \$a tag stands for the musical genre (sonata in this case), whereas the same tag under the field 700 stands for the composer name (Beethoven).
 
 %\begin{figure}
@@ -118,7 +114,7 @@ Due to the high data heterogeneity, link discovery in the musical field becomes 
 %  \label{fig:unimarc}
 %\end{figure}
 
-%We have developed an open source prototype that allows for the automatic conversion of bibliographic records given in UNI- or INTERMARC to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}, implementing the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing its corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fig.~\ref{fig:mappings}. %The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts. 
+%We have developed an open source prototype that allows for the automatic conversion of bibliographic records given in UNI- or INTERMARC to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}, implementing the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing its corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fig.~\ref{fig:mappings}. %The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts.
 %We have used the DOREMUS properties to name the extracted relations (as for example \texttt{mus:U12$\_$has$\_$genre}\footnote{The \texttt{mus} prefix refers to \url{http://data.deremus.org/ontology/}}, labeling the property describing the genre of a work). The resources are identified by URIs that use the corresponding DOREMUS class labels in their names (as for example \url{http://data/doremus.org/expression/UUID} identifying uniquely an instance of the FRBRoo class \texttt{Expression}).
 
 %\begin{figure}
