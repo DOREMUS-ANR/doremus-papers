@@ -33,12 +33,9 @@
 In this paper, we introduce OVERTURE---a web application allowing to explore the interlinked catalogs of major music libraries including the French National Library, Radio France and the Philharmonie de Paris. We have first developed the DOREMUS ontology which is an extension of the well-known FRBRoo model for describing works and expressions as well as the creation processus. We have implemented a so-called {\it marc2rdf} tool allowing for the conversion and linking of bibliographical entries about music works, interpretations and expressions from their original MARC-format to RDF following this DOREMUS ontology. We present an exploratory search engine prototype that enables to browse through the reconciled collection of bibliographical records of classical music and to highlight the various interpretations of a work, its derivative, its performance casting as well as other rich metadata.
 \end{abstract}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  1. Introduction  %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Introduction}
-\label{sec:introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  1. From Music Metadata to Linked RDF Graphs  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 -- The Doremus project: talk about the model \ref{} and the controlled vocabularies \ref{} because we need this info in next section, cite the doremus poster paper \cite{achichi2015doremus}
 
@@ -46,9 +43,6 @@ In this paper, we introduce OVERTURE---a web application allowing to explore the
 
 -- why it is important to convert these data to RDF (impact, number of institutions using this format).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  2. From Music Metadata to Linked RDF Graphs  %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{From Music Metadata to Linked RDF Graphs}
 \label{sec:conversion}
@@ -72,26 +66,22 @@ We have developed an open source prototype that allows for the automatic convers
 
 Often, the RDF data that we extract will contain string literals, such as genres ({\it sonata}) or instruments ({\it piano}). These values are controlled by specific vocabularies, such as MIMO\footnote{\url{http://www.mimo-international.com/vocabulary.html}} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. Inspired by the Datalift platform~\cite{datalift}, we have developed a generic \texttt{string2uri} component enabling to lookup strings in a SKOS controlled vocabulary and to propose best candidate match.
 
-\paragraph{{\bf Data Heterogeneities and Linking.}} Due to the high data heterogeneity, link discovery in the musical field becomes a challenging task. To train and test data linking tools, we have collected benchmark data from the BnF and the PP, now part of the OAEI instance matching evaluation campagne\footnote{\url{http://islab.di.unimi.it/content/im_oaei/2016/\#doremus}}. Our tests with  SILK \cite{jentzsch2010silk} and LIMES \cite{ngomo2011limes}, achieving an average F-measure of around 55\%, confirm that new methods, specific to the music field, need to be proposed, in order to handle specific heterogeneity types of these datasets. In particular, special attention has to be payed to multilingual descriptions of works, as well as to significant lexical differences in work titles. Descriptive heterogeneities (level of detail, number of properties) also hinder the performance of general purpose tools. Furthermore, certain properties, although mapped correctly according to the transfer rules, contain highly heterogeneous information, as for example \texttt{cidoc-crm:P3$\_$has$\_$note} -- a field of free text in the form of comments. We are currently developing a linking approach that combines expert heuristics with indexing techniques that is able to propose a solution according to the heterogeneity type manifested by the data.
+\paragraph{{\bf Data Heterogeneities and Linking.}} Due to the high data heterogeneity, link discovery in the musical field becomes a challenging task. To train and test data linking tools, we have collected benchmark data from the BnF and the PP, now part of the OAEI instance matching evaluation campagne\footnote{\url{http://islab.di.unimi.it/content/im_oaei/2016/\#doremus}}. Our tests with SILK~\cite{jentzsch2010silk} and LIMES~\cite{ngomo2011limes}, achieving an average F-measure of around 55\%, confirm that new methods, specific to the music field, need to be proposed, in order to handle specific heterogeneity types of these datasets. In particular, special attention has to be payed to multilingual descriptions of works, as well as to significant lexical differences in work titles. Descriptive heterogeneities (level of detail, number of properties) also hinder the performance of general purpose tools. Furthermore, certain properties, although mapped correctly according to the transfer rules, contain highly heterogeneous information, as for example \texttt{cidoc-crm:P3$\_$has$\_$note} -- a field of free text in the form of comments. We are currently developing a linking approach that combines expert heuristics with indexing techniques that is able to propose a solution according to the heterogeneity type manifested by the data.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  3. OVERTURE: an Exploratory Search Engine for Music  %%%
+%%%  2. OVERTURE: an Exploratory Search Engine for Music  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{OVERTURE: an Exploratory Search Engine for Music}
 \label{sec:overture}
 \begin{figure}
   \centering
-  \includegraphics[width=11cm]{img/overture-detail.png}
-  \caption{Overture: Browsing Expression ...}
+  \includegraphics[width=10cm]{img/overture-detail.png}
+  \caption{Overture: browsing a particular interpretation of the Piano Concerto No. 5 from Beethoven}
   \label{fig:overture-detail}
 \end{figure}
 
-OVERTURE (Ontology-driVen Exploration and Recommendation of mUsical REcords) is a modern web application that relied on a Node.JS server sitting in front of a Virtuoso triple store where all the data has been loaded. The web application performs SPARQL queries to access the data. Figure~\ref{fig:overture-detail} shows the user interface realized with AngularJS. On top, a navigation bar directs the user towards one of the main concepts in the DOREMUS model (Work, Expression, Performance, Recording, Score, Person), that become distinct sections of the application. Inside each section, the user can filter the list of records shown in a class-specific and advanced search form. In this way, (s)he can search a performance by choosing a particular location, a performer, or an expression by selecting the musical key, the genre or by searching by title. From these parameters, the server generates the SPARQL query that matches the user information need (Figure~\ref{fig:sparql}).
-
-Clicking on a result, more details are shown like the information about the composer, the casting and a longer descriptive note. Beside it, a selection of different expressions is shown. In the future, this selection will contain related expressions, selected through a recommendation algorithm.
-\begin{figure}
-\centering
+OVERTURE (Ontology-driVen Exploration and Recommendation of mUsical REcords) is a modern web application that relied on a Node.JS server sitting in front of a Virtuoso triple store. The web application performs SPARQL queries to access the data via the Node.JS server that could be a Linked Data Fragment server. Figure~\ref{fig:overture-detail} shows the user interface realized with the AngularJS2 library. On top, a navigation bar directs the user towards one of the main concepts in the DOREMUS model (Work, Expression, Performance, Recording, Score, Person), that become distinct sections of the application. Inside each section, the user can filter the list of records shown in a class-specific and advanced search form. In this way, (s)he can search a performance by choosing a particular location, a performer, or an expression by selecting the musical key, the genre or by searching by title. From these parameters, the server generates the SPARQL query that matches the user information need.
 \begin{verbatim}
 SELECT ?expressions ?title
 WHERE {
@@ -100,14 +90,11 @@ WHERE {
         mus:U12_has_genre <http://data.doremus.org/vocabulary/genre/si>
 }
 \end{verbatim}
-\caption{Overture: A simplified example of the SPARQL query that extracts the titles of expressions that have the genre "symphony".}
-\label{fig:sparql}
-\end{figure}
 
-% TODO link to demo video
+Clicking on a result, more detailed information is shown such as the information about the composer, the casting, a longer descriptive note or different expressions. In the future, this selection will contain related expressions, selected through a recommendation algorithm. The application is available at \url{http://overture.doremus.org}\footnote{A video is also available at \url{https://www.dropbox.com/s/4e7n5a4qgyzk6wu/OvertureDemo-v0.mp4?dl=0}}.
 
-\section*{Acknowledgments}
-This work has been partially supported by the French National Research Agency (ANR) within the DOREMUS Project, under grant number ANR-14-CE24-0020.
+%\section*{Acknowledgments}
+%This work has been partially supported by the French National Research Agency (ANR) within the DOREMUS Project, under grant number ANR-14-CE24-0020.
 
 \bibliographystyle{abbrv}
 \bibliography{bib-doremus}
