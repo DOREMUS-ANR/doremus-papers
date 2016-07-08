@@ -47,45 +47,99 @@ In this paper, we introduce OVERTURE---an application allowing to explore the ca
 
 -- why it is important to convert these data to RDF (impact, number of institutions using this format).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%  2. Converting Music Metadata to RDF  %%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  2.Data Conversion and linking  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Converting Music Metadata to RDF}
+
+\section{From Raw Data to Linked RDF Datasets}
 \label{sec:conversion}
 
-\section{Converting Music Metadata to RDF}
-\label{sec:conversion}
-The data collected from the BnF and the Philharmonie de Paris (PP) describing music works are given in the MARC format, and more precisely, its UNIMARC and INTERMARC variants. A MARC file is a succession of fields, each carrying a label (a three-digit number) and subfields, delimited by the \$ symbol, as shown in Fig.~\ref{fig:unimarc}. The semantics of these fields and subfields is described in various documents issued by The International Federation of Library Associations and Institutions (IFLA)\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}. %, according to the MARC variant. 
-Note that a subfield tag can change its meaning depending on the field under which it is found. In the example in Fig.~\ref{fig:unimarc}, the combination of the field 500 with the \$a tag stands for the musical genre (sonata in this case), whereas the same tag under the field 700 stands for the composer name (Beethoven).
+\paragraph{{\bf Data Conversion.}}
+
+The data collected from the BnF and the Philharmonie de Paris (PP) describing music works are given in the MARC format, precisely its UNI-- and INTERMARC variants. A MARC file is a succession of fields, each carrying a 3-digit label, and subfields, delimited by the \$ symbol (Fig.~\ref{fig:unimarc}). The semantics of these fields and subfields is described in documents issued by The International Federation of Library Associations and Institutions\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}. %, according to the MARC variant. 
+Note that a subfield tag can change its meaning depending on the field, under which it is found. In our example (Fig.~\ref{fig:unimarc}), the \$a tag under the field 500 stands for the musical genre (sonata in this case), whereas the same tag under the field 700 stands for the composer name (Beethoven).
+
+We have developed an open source prototype that allows for the automatic conversion of UNI- or INTERMARC bibliographic records to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}, implementing the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing the corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fig.~\ref{fig:mappings}. %The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts. 
+We have used the DOREMUS properties to name the extracted relations (as for example \texttt{mus:U12$\_$has$\_$genre}\footnote{The \texttt{mus} prefix refers to \url{http://data.deremus.org/ontology/}}, labeling the property describing the genre of a work).  Resources are identified by URIs that use the corresponding DOREMUS class labels in their names (as for example \url{http://data/doremus.org/expression/UUID} identifying an instance of the FRBRoo class \texttt{Expression}).
 
 \begin{figure}
   \centering
   \includegraphics[width=8cm]{img/marc-exmpl-simple.png}
   \caption{An excerpt of a UNIMARC record.}
   \label{fig:unimarc}
-\end{figure}
-
-We have developed an open source prototype that allows for the automatic conversion of bibliographic records given in UNI- or INTERMARC to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}, implementing the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing its corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fig.~\ref{fig:mappings}. %The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts. 
-We have used the DOREMUS properties to name the extracted relations (as for example \texttt{mus:U12$\_$has$\_$genre}\footnote{The \texttt{mus} prefix refers to \url{http://data.deremus.org/ontology/}}, labeling the property describing the genre of a work). The resources are identified by URIs that use the corresponding DOREMUS class labels in their names (as for example \url{http://data/doremus.org/expression/UUID} identifying uniquely an instance of the FRBRoo class \texttt{Expression}).
-
-\begin{figure}
+%\end{figure}
+\smallskip
+%\begin{figure}
   \centering
-  \includegraphics[width=11cm]{img/mapping-rules.png}
+  \includegraphics[width=9cm]{img/mapping-rules.png}
   \caption{Example of mapping rules regarding the timespan of the composition of a work.}
   \label{fig:mappings}
 \end{figure}
 
-Often, the RDF data that we extract will contain string literal values, such as genres ({\it sonata}) or instruments ({\it piano}). These values are controlled by specific vocabularies, such as the MIMO vocabulary\footnote{\url{http://www.mimo-international.com/vocabulary.html}} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. Inspired by the Datalift platform~\cite{datalift}, we have developed a generic \texttt{string2uri} component enabling to lookup strings in a SKOS controlled vocabulary and to propose best candidate match.
+Often, the RDF data that we extract will contain string literals, such as genres ({\it sonata}) or instruments ({\it piano}). These values are controlled by specific vocabularies, such as MIMO\footnote{\url{http://www.mimo-international.com/vocabulary.html}} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. Inspired by the Datalift platform~\cite{datalift}, we have developed a generic \texttt{string2uri} component enabling to lookup strings in a SKOS controlled vocabulary and to propose best candidate match.
+
+%An example of a converted MARC record is given in Fig. \ref{}. %Not sure we need an example.
+
+\paragraph{{\bf Data Heterogeneities and Linking.}}
+
+Due to the high data heterogeneity, link discovery in the musical field becomes a challenging task. To train and test data linking tools, we have collected benchmark data from the BnF and the PP, now part of the OAEI instance matching evaluation campagne\footnote{\url{http://islab.di.unimi.it/content/im_oaei/2016/#doremus}}. Our tests with  SILK \cite{jentzsch2010silk} and LIMES \cite{ngomo2011limes}, achieving an average F-measure of around 55\%, confirm that new methods, specific to the music field, need to be proposed, in order to handle specific heterogeneity types of these datasets. In particular, special attention has to be payed to multilingual descriptions of works, as well as to significant lexical differences in work titles. Descriptive heterogeneities (level of detail, number of properties) also hinder the performance of general purpose tools. Furthermore, certain properties, although mapped correctly according to the transfer rules, contain highly heterogeneous information, as for example \texttt{cidoc-crm:P3$\_$has$\_$note} -- a field of free text in the form of comments. We are currently developing a linking approach that combines expert heuristics with indexing techniques that is able to propose a solution according to the heterogeneity type manifested by the data.
+
+
+
+
+
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  2. Converting Music Metadata to RDF  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\section{Converting Music Metadata to RDF}
+%\label{sec:conversion}
+
+%\section{Converting Music Metadata to RDF}
+%\label{sec:conversion}
+%The data collected from the BnF and the Philharmonie de Paris (PP) describing music works are given in the MARC format, and more precisely, its UNIMARC and INTERMARC variants. A MARC file is a succession of fields, each carrying a label (a three-digit number) and subfields, delimited by the \$ symbol, as shown in Fig.~\ref{fig:unimarc}. The semantics of these fields and subfields is described in various documents issued by The International Federation of Library Associations and Institutions (IFLA)\footnote{\url{http://www.ifla.org/publications/ifla-series-on-bibliographic-control-36}.}. %, according to the MARC variant. 
+%Note that a subfield tag can change its meaning depending on the field under which it is found. In the example in Fig.~\ref{fig:unimarc}, the combination of the field 500 with the \$a tag stands for the musical genre (sonata in this case), whereas the same tag under the field 700 stands for the composer name (Beethoven).
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=8cm]{img/marc-exmpl-simple.png}
+%  \caption{An excerpt of a UNIMARC record.}
+%  \label{fig:unimarc}
+%\end{figure}
+
+%We have developed an open source prototype that allows for the automatic conversion of bibliographic records given in UNI- or INTERMARC to RDF\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}}, implementing the DOREMUS model. The conversion process relies on explicit expert-defined transfer rules (or mappings) that indicate where in the MARC file to look for what kind of information, providing its corresponding property path in the model as well as useful examples that illustrate each transfer rule, as shown in Fig.~\ref{fig:mappings}. %The mapping rules reflect the practices of each institution and therefore a mapping table per institution has been provided by the experts. 
+%We have used the DOREMUS properties to name the extracted relations (as for example \texttt{mus:U12$\_$has$\_$genre}\footnote{The \texttt{mus} prefix refers to \url{http://data.deremus.org/ontology/}}, labeling the property describing the genre of a work). The resources are identified by URIs that use the corresponding DOREMUS class labels in their names (as for example \url{http://data/doremus.org/expression/UUID} identifying uniquely an instance of the FRBRoo class \texttt{Expression}).
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=11cm]{img/mapping-rules.png}
+%  \caption{Example of mapping rules regarding the timespan of the composition of a work.}
+%  \label{fig:mappings}
+%\end{figure}
+
+%Often, the RDF data that we extract will contain string literal values, such as genres ({\it sonata}) or instruments ({\it piano}). These values are controlled by specific vocabularies, such as the MIMO vocabulary\footnote{\url{http://www.mimo-international.com/vocabulary.html}} describing musical instruments. Therefore, our data conversion methods include an automatic mapping of string literals to URIs coming from controlled vocabularies. Inspired by the Datalift platform~\cite{datalift}, we have developed a generic \texttt{string2uri} component enabling to lookup strings in a SKOS controlled vocabulary and to propose best candidate match.
 %An example of a converted MARC record is given in Fig. \ref{}. %Not sure we need an example.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%  3.Data linking  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Data Heterogeneities and Linking}
+%\section{Data Heterogeneities and Linking}
 
-Due to the high data heterogeneity, link discovery in the musical field becomes a challenging task. To train and test data linking tools, we have collected benchmark data from the BnF and the PP, now part of the OAEI instance matching evaluation campagne\footnote{\url{http://islab.di.unimi.it/content/im_oaei/2016/#doremus}}. Our tests with  SILK \cite{jentzsch2010silk} and LIMES \cite{ngomo2011limes}, achieving an average F-measure of around 55\%, confirm that new methods, specific to the music field, need to be proposed, in order to handle specific heterogeneity types of these datasets. In particular, special attention has to be payed to multilingual descriptions of works, as well as to significant lexical differences in work titles. Descriptive heterogeneities (level of detail, number of properties) also hinder the performance of general purpose tools. Furthermore, certain properties, although mapped correctly according to the transfer rules, contain highly heterogeneous information, as for example \texttt{cidoc-crm:P3$\_$has$\_$note} -- a field of free text in the form of comments. We are currently developing a linking approach that combines expert heuristics with indexing techniques that is able to propose a solution according to the heterogeneity type manifested by the data.
+%Due to the high data heterogeneity, link discovery in the musical field becomes a challenging task. To train and test data linking tools, we have collected benchmark data from the BnF and the PP, now part of the OAEI instance matching evaluation campagne\footnote{\url{http://islab.di.unimi.it/content/im_oaei/2016/#doremus}}. Our tests with  SILK \cite{jentzsch2010silk} and LIMES \cite{ngomo2011limes}, achieving an average F-measure of around 55\%, confirm that new methods, specific to the music field, need to be proposed, in order to handle specific heterogeneity types of these datasets. In particular, special attention has to be payed to multilingual descriptions of works, as well as to significant lexical differences in work titles. Descriptive heterogeneities (level of detail, number of properties) also hinder the performance of general purpose tools. Furthermore, certain properties, although mapped correctly according to the transfer rules, contain highly heterogeneous information, as for example \texttt{cidoc-crm:P3$\_$has$\_$note} -- a field of free text in the form of comments. We are currently developing a linking approach that combines expert heuristics with indexing techniques that is able to propose a solution according to the heterogeneity type manifested by the data.
+
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%  3. OVERTURE: an Exploratory Search Engine for Music  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
