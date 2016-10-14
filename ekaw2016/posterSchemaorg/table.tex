@@ -1,0 +1,98 @@
+\section*{Appendix: Mapping-table from DOREMUS to Schema.org}
+\label{sec:table}
+
+The following Table shows the mapping rules for DOREMUS, extracted through the method described in this paper.
+
+\tablehead{
+\textbf{DOREMUS} \newline Property $\rightarrow$ Class
+&
+\textbf{Schema.org} \newline Property $\rightarrow$ Class\\\hline
+}
+\tabletail{\hline {Continued on next page} \\}
+\tablelasttail{\hline \hline}
+\begin{center}
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{1.7}
+\label{tab:map}
+\begin{xtabular}{p{6.7cm} p{4cm} }
+% F2 EXPRESSION
+\multicolumn{2}{c}{mus:F2 Expression $\rightarrow$ sdo:MusicComposition}\\
+\hline
+P102 has title $\rightarrow$ E35 Title
+& name $\rightarrow$ Text \\
+P67 refers to $\rightarrow$ M15 Dedication
+& mentions $\rightarrow$ Text \\
+U11 has key $\rightarrow$ M4 key
+& musicalKey $\rightarrow$ Text\\
+U12 has genre $\rightarrow$ M5 genre
+& musicCompositionForm\newline$\rightarrow$ Text\\
+U19 has style $\rightarrow$ M19 Style
+& genre $\rightarrow$ Text\\
+R9i realizes $\rightarrow$ F1 Work
+& exampleOfWork\newline$\rightarrow$ MusicComposition\\
+U4 had princeps publication\newline$\rightarrow$ F30 Publication Event
+& publication\newline$\rightarrow$ PublicationEvent\\
+P165i is incorporated in\newline$\rightarrow$ F24 Publication Expression
+& publication\newline$\rightarrow$ PublicationEvent\\
+R24i was created through\newline$\rightarrow$  F24 Publication Event
+& publication\newline$\rightarrow$ PublicationEvent\\
+% F1 Work
+\hline
+\multicolumn{2}{c}{mus:F1 Work $\rightarrow$ sdo:MusicComposition}\\
+\hline
+P148 has component \newline$\rightarrow$ F14 Individual Work
+& hasPart \newline$\rightarrow$ MusicComposition\\
+% F28 EXPRESSION CREATION
+\hline
+\multicolumn{2}{c}{mus:F28 Expression Creation $\rightarrow$ sdo:CreationEvent}\\
+\hline
+P4 has time span\newline $\rightarrow$ E52 Time-span
+& startTime $\rightarrow$ Date \newline
+endTime $\rightarrow$ Date\newline
+\textit{(split into 2 properties)} \\
+R17 created\newline$\rightarrow$ F22 Self-Contained Expression
+& result\newline $\rightarrow$ MusicComposition\\
+P9 consists of $\rightarrow$ E7 Activity
+& agent $\rightarrow$ Role\\
+% E7 Activity
+\hline
+\multicolumn{2}{c}{mus:E7 Activity $\rightarrow$ sdo:Role}\\
+\hline
+U35 had function of type \newline $\rightarrow$ M31 Actor's Function
+& roleName $\rightarrow$ Text \\
+R14 carried out by\newline$\rightarrow$ E21 Person
+& [inital property]\newline $\rightarrow$ Person\\
+% E21 Person
+\hline
+\multicolumn{2}{c}{mus:E21 Person $\rightarrow$ sdo:Person}\\
+\hline
+P135 is identified by \newline $\rightarrow$ E82 Actor Appellation
+& name $\rightarrow$ Text \\
+% E53 Place
+\hline
+\multicolumn{2}{c}{mus:E53 Place $\rightarrow$ sdo:Place}\\
+\hline
+P1 is identified by \newline $\rightarrow$ E41 Appellation
+& name $\rightarrow$ Text \\
+% F11 Corporate Body
+\hline
+\multicolumn{2}{c}{mus:F11 Corporate Body $\rightarrow$ sdo:MusicGroup}\\
+\hline
+P135 is identified by \newline $\rightarrow$ E82 Actor Appellation
+& name $\rightarrow$ Text \\
+% F31 Performance
+\hline
+\multicolumn{2}{c}{mus:F31 Performance $\rightarrow$ sdo:MusicEvent}\\
+\hline
+R25 performed $\rightarrow$ F25 Performance Plan \newline $\rightarrow$ P165 incorporates \newline $\rightarrow$ F22 Self-Contained Expression
+& workPerformed \newline $\rightarrow$ MusicComposition \\
+P4 has time span \newline $\rightarrow$ E52 Time-Span
+& startDate $\rightarrow$ Date \newline
+endDate $\rightarrow$ Date\newline
+\textit{(split into 2 properties)} \\
+P7 took place at $\rightarrow$ E35 Place
+& location $\rightarrow$ Place \\
+%
+\end{xtabular}
+\centering
+\end{center}
