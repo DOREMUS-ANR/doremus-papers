@@ -46,9 +46,9 @@ Music metadata are often represented through complex models and ontologies such 
 
 Users are nowadays used to see an enrichment in the results of search engines. This is made possible thanks to the adoption of some form of \textit{Structured Data markup}, like Schema.org \cite{guha2015schema} that allows to describe contents on the page in a machine-understandable way. In particular it offers classes like CreativeWork, Event and music-specific subclasses like MusicComposition or MusicEvent.
 
-Musical works are complex objects that requires complex ontologies for expressing their rich information. FRBRoo is an ontology for describing bibliographic information \cite{doerr2008frbroo}. The central feature of the ontology is the presence of the triplet of classes Work Event-Expression: every artistic Work, only exists through an Event of creation, that realizes the Work itself into an Expression.The DOREMUS ontology\footnote{\url{http://www.doremus.org}} \cite{achichidoremus} extends FRBRoo with music-specific classes and properties like the key, the genre, the casting. Because of this complexity, the consumption of these ontologies by search engines and external applications is not easy.
-Nogales et al. \cite{nogales2016linking} performed a mapping between classes and properties in Schema.org and different vocabularies which have exactly the same name (or synonyms).
-Godby \cite{godby2013relationship} proposes to map each level of the chain Work - Expression - Manifestation - Item with a entity of the CreativeWork class, a limit of this strategy is that the information is split up among different objects.
+Musical works are complex objects that requires complex ontologies for expressing their rich information. FRBRoo is an ontology for describing bibliographic information \cite{doerr2008frbroo}. The central feature of this ontology is the presence of the triplet of classes Work Event-Expression: every artistic Work, only exists through an Event of creation, that realizes the Work itself into an Expression. The DOREMUS ontology\footnote{\url{http://www.doremus.org}} \cite{achichidoremus} extends FRBRoo with music-specific classes and properties like the key, the genre, the casting. Because of this complexity, the consumption of these data by search engines and external applications is not easy.
+Nogales et al. \cite{nogales2016linking} performed a mapping between the classes and properties of Schema.org and the ones of different vocabularies which have exactly the same name (or synonyms).
+Godby \cite{godby2013relationship} proposes to map each level of the chain Work - Expression - Manifestation - Item with a entity of the CreativeWork class; a limit of this strategy is that the information is split up among different objects.
 
 In this paper, we provide a strategy for translating a complex ontology like DOREMUS into Schema.org, structured as a series of recipes to follow.
 This method is based on the observation of the graph and it assumes sufficient knowledge of the involved models. As example, we will try to represent Beethoven's \textit{Sonata ``Quasi una Fantasia"}, described in DOREMUS (``mus", later) in Figure \ref{fig:beet-doremus}, using Schema.org (``sdo").
@@ -69,7 +69,7 @@ This method is based on the observation of the graph and it assumes sufficient k
 \label{sec:simplification}
 
 \subsubsection{Choose the starting node.}
-The most suitable starting point should coincide with the most significant class or classes in the starting ontology, DOREMUS. It could be the class with the highest number of occurrences, or it could consist in a frequent pattern, like the FRBRoo triangle. We choose as starting node \textit{mus:F2 Expression} and \textit{mus:F28 Expression Creation}, because they are linked with most of the crucial information for the final user, the title and the composer.
+The most suitable starting point should coincide with the most significant class or group of classes in the starting ontology, DOREMUS. It could be the class with the highest number of occurrences, or it could consist in a frequent pattern, like the FRBRoo triangle. We choose \textit{mus:F2 Expression} and \textit{mus:F28 Expression Creation}, because they are linked with most of the crucial information for end-users, the title and the composer.
 
 \subsubsection{Identify similar classes.}
 \label{sec:classmap}
@@ -80,30 +80,30 @@ They should have similar names, where similarity is computed using the Levenshte
 }
  \item{They should have similar descriptions, where the similarity can be computed through the Cosine or the Token-Wise distance.}
  \item{They should have similar properties}
- \item{They should have similar expected property values.
-e.g. both \textit{mus:U12 has genre} and \textit{sdo:musicCompositionForm} have ``sonata" as possible value.
+ \item{They should have similar expected property values
+(e.g. both \textit{mus:U12 has genre} and \textit{sdo:musicCompositionForm} have ``sonata" as possible value).
 }
 \end{enumerate*}
 
-If the research for a suitable match fails for a specific class, then it could mean that Schema.org does not describe it. In this case, you can decide if that information is too specific and does not need to be mapped or that it is possible represent it as plain text in a note. Alternatively, you  can consider it as a candidate for an extension of Schema.org.
+If the research for a suitable match fails for a specific class, then it could mean that such an equivalent concept does not exist in Schema.org. In this case, you can decide if that information is too specific and so does not need to be mapped, or that it is possible represent it as plain text in a note. Alternatively, you  can consider it as a candidate for a Schema.org extension.
 
 \subsubsection{Identify similar properties.}
 For each class mapped, we must map its properties. The criteria are:
 \begin{enumerate*}
- \item{They should have similar name.}
- \item{They should have similar description.}
- \item{They should have similar expected value.}
+ \item{They should have similar names.}
+ \item{They should have similar descriptions.}
+ \item{They should have similar expected values.}
 \end{enumerate*}
 
-Each mapped property could have as value a literal (e.g. key and genre) or another class  (e.g. the composer is a Person). In the latter case, if we have not previously mapped this class, we consider it as a new input for the first steps, until every node in the graph is reached.
+Each mapped property could have as value a literal (e.g. key and genre) or another class  (e.g. the composer is a Person). In the latter case, if we have not previously mapped it, we consider this class as a new input for the first steps, until every node in the graph is reached.
 
 \subsubsection{Simplify the graph.}
 
 It could happen that the same type in Schema.org map is mapping multiple DOREMUS classes: i.e. \textit{sdo:MusicComposition} results to map both Works and Expressions. Merging these nodes can produce the advantage of a simpler model, in which the information is distributed in as less nodes as possible. Two nodes are good candidates for the merging when:
 \begin{enumerate*}
 \item{They have the class or a superclass in common.}
-\item{The direct connections with the same class are realized with the same properties.}
-\item{They are directly connected between them.}
+\item{The direct connection with a specific class is realized with the same property.}
+\item{They are directly connected.}
 \item{They have not conflicting properties.}
 \end{enumerate*} The \textit{mus:F1 Work} and \textit{mus:F2 Expression}, both mapped with \textit{sdo:Music-Composition}, satisfy all these criteria. Moreover, the difference between Work and Expression is slight since from the FRBRoo and it has been considered not relevant from the point of view of Schema.org \cite{godby2013relationship}.
 
@@ -129,11 +129,11 @@ The result of this phase is a new graph as it is show in Figure \ref{fig:beet-sc
 \section{Evaluation and Future Work}
 \label{sec:evaluation}
 
-The evaluation of the goodness of the mapping is a long term goal, that can be performed only when data will be more easily consumed (e.g. by search engines). For having a quick feedback on it, we prepared a JSON-LD version of the \textit{Sonata Quasi Una Fantasia} available at \url{https://db.tt/em0GxWbT}.
+The evaluation of the goodness of the mapping is a long term goal, that can be realized only when data will be more easily consumed (e.g. by search engines). For having a quick feedback on it, we prepared a JSON-LD version of the \textit{Sonata Quasi Una Fantasia} available at \url{https://goo.gl/zzXVVh}.
 Both the Structured Data Testing Tool by Google\footnote{\url{https://search.google.com/structured-data/testing-tool}} and the Structured Data Linter\footnote{\url{http://linter.structured-data.org/}} show the structure of the Schema.org graph like a tree, with 76 statements correctly recognized. The Structured Data Linter offers in addition a preview of the result as they could be shown in a SERP.
 For having a stronger visual feedback, we developed a lightweight web app, named Schema.org Visualizer\footnote{\url{https://github.com/pasqLisena/schema-visualizer}}, which consumes the data in JSON-LD and shows a knowledge cards for the described contents. The result for our example is available at \url{https://goo.gl/mCAszw}.
 
-We are planning to test our recipes on the ELI ontology\footnote{\url{http://publications.europa.eu/mdr/eli/}}. The goal is comparing the result of the mapping to the one which has recently been handmade performed\footnote{\url{https://github.com/schemaorg/schemaorg/issues/1156}}.
+We are planning to test our recipes on the ELI ontology\footnote{\url{http://publications.europa.eu/mdr/eli/}}. The goal is to compare the result of the mapping to the one which has recently been handmade performed and published\footnote{\url{https://github.com/schemaorg/schemaorg/issues/1156}}.
 
 Future works will include an implementation strategy for this methodology, that will also highlight the contents excluded from the mapping, in order to better evaluate the possibility of presenting a Schema.org extension.
 
