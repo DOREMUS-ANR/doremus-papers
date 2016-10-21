@@ -59,7 +59,7 @@ This research is being developed in the context of the DOREMUS project\footnote{
 
 \section{Proposed Approach}
 \label{sec:approach}
-Three different challenges represents the ambitious goal of this research thesis.
+Three different challenges represent the ambitious goal of this research thesis.
 
 The first challenge is to find an appropriate ontology model for capturing the richness of music information, taking into account all its components. The data in MARC format from the source institutions will be converted independently in RDF. After that, a reconciliation process should be realized. In particular, \texttt{sameAs} links should be found on the resources from the different institution that describe the same work (or expression, etc.), for letting them finally converge in a unique graphs that contains the whole information at our disposal. This should be realized by identifying the features that let us to point directly a resource (i.e. for a work they could be the title, the author and the catalog number) and comparing them. Moreover, controlled vocabularies must be used for describing specific features (keys, genres, etc.) and disambiguating their values.
 
@@ -69,7 +69,7 @@ The second challenge consists in providing a simplified version of this structur
 \item{\textit{which methods should be used for realizing this simplification?}}
 \end{enumerate*}
 
-Finally, our aim is to demonstrate the benefits that these data can produce once they are consumed and displayed to the end-user. We consider taking the user in account as an important requirement for the design of these systems. In this context, an application will be developed that consists in two parts. Firstly, an exploratory search engine for musical data will be designed and developed. \textit{Can the knowledge model simplification operated in the second challenge be used to improve the user experience? How complex concepts and relationship should be displayed to the end-user?} On top of the exploratory interface, we will build a recommendation engine. \textit{Are the recommendation systems currently used for music still valid for this complexity? Is the rich model better of the simplified (Schema.org-based) one for feeding the recommendation? Do different user profiles (the student, the expert, the music amateur) require different recommendations?}
+Finally, our aim is to demonstrate the benefits that these data can produce once they are consumed and displayed to the end-user. We consider taking the user in account as a crucial requirement for the design of these systems. In this context, an application will be developed that consists in two parts. Firstly, an exploratory search engine for musical data will be designed and developed. \textit{Can the knowledge model simplification operated in the second challenge be used to improve the user experience? How complex concepts and relationship should be displayed to the end-user?} On top of the exploratory interface, we will build a recommendation engine. \textit{Are the recommendation systems currently used for music still valid for this complexity? Is the rich model better then the simplified (Schema.org-based) one for feeding the recommendation? Do different user profiles (the student, the expert, the music amateur) require different recommendations?}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %%% State of the Art  %%%
@@ -141,7 +141,7 @@ Schema.org contains different types for describing music: CreativeWork, MusicCom
 
 \subsection{Recommendation} Our starting point for the study of a suitable algorithm for recommendation consists in two human-made collections: playlists from RadioFrance and concert programs from Philharmonie de Paris. While the latter can reveal very strong connection between works (so that they are played in the same concert, probably with the same casting), in the former the logical succession (redacted by experts for an amateur public, sometimes inside thematic radio programs) should contain also a novelty factor.
 
-In parallel to these collections, we can consider the results of the recommendations from leading music providers. In this context, we realized the ARyTREx web app\footnote{Experiment realized by Eva Fernández-Marin during the realization of her master thesis (\url{https://github.com/fernanev/ARyTREx}).}, which uses the API from Spotify and Last.fm for showing different recommendation paths, collecting the metadata of the included tracks. 
+In parallel to these collections, we can consider the results of the recommendations from leading music providers. In this context, we realized the ARyTREx web app\footnote{Experiment realized by Eva Fern\a'andez-Mar\a'in during the realization of her master thesis (\url{https://github.com/fernanev/ARyTREx}).}, which uses the API from Spotify and Last.fm for showing different recommendation paths, collecting the metadata of the included tracks. 
 
 A goal will be to identify which features are the most important in the recommendation. The DOREMUS ontology itself will be able to describe the results, making available to the web a set of thematic playlists.
 
@@ -156,7 +156,7 @@ Programs, playlists and third-parts recommendation results will play a key role 
 
 \section{Preliminary results}
 \label{sec:results}
-Since the start of the project, some results have been achieved. We have developed a prototype \textsc{marc2rdf} conversion tool and a prototype exploration tool named \textsc{Overture} as open source software~\cite{lisena2016exploring}. 
+Since the start of the project, some results have been achieved. We have developed a prototype \textsc{marc2rdf} conversion tool and a prototype exploration tool named \textsc{Overture}, both as open source softwares~\cite{lisena2016exploring}. 
 
 \subsection{Data conversion}
 \textsc{marc2rdf}\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf}} is an open source prototype for converting the bibliographic records from UNIMARC and INTERMARC to an RDF graph following the DOREMUS model. The conversion relies on explicit expert-defined transfer rules (or mappings), that define for each property/class in the DOREMUS ontology where to find the relative information in the MARC file. The software contains also a \textit{string2uri} component, inspired by the Datalift platform \cite{scharffe2012enabling}, that performs an automatic mapping of string literals to URIs coming from controlled vocabularies.
