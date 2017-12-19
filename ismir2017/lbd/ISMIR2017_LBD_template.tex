@@ -1,0 +1,131 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  ISMIR Late Breaking/Demo Results (LBD)                               %%%
+%%%  Combining Music Specific Embeddings for Computing Artist Similarity  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% -----------------------------------------------
+% Template for ISMIR Late Breaking/Demo Extended Abstracts
+% 2017 version, based on previous ISMIR templates
+
+% Requirements :
+% * 2+n page length maximum
+% * 4MB maximum file size
+% * Copyright note must appear in the bottom left corner of first page
+% (see conference website for additional details)
+% -----------------------------------------------
+
+\documentclass{article}
+\usepackage{ismir,amsmath,cite,url}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{enumitem}
+\usepackage{multirow}
+
+\newcommand{\etc}{\textit{etc.}}
+
+\title{Combining Music Specific Embeddings for Computing Artist Similarity}
+
+\twoauthors
+  {Pasquale Lisena} {EURECOM, Sophia Antipolis, France \\ {\tt pasquale.lisena@eurecom.fr}}
+  {Rapha\"el Troncy} {EURECOM, Sophia Antipolis, France \\ {\tt raphael.troncy@eurecom.fr}}
+
+\sloppy % please retain sloppy command for improved formatting
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  Beginning of document  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%
+%%%  Abstract  %%%
+%%%%%%%%%%%%%%%%%%
+
+\begin{abstract}
+In this paper, we present an original approach and preliminary results for computing similarities between music-related entities (artists, works, performances) using embeddings that take into account not only the semantic description of those entities but also their usage in a rich music dataset.
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  1. Introduction  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}\label{sec:introduction}
+An artist, and in particular a musician, can be described using different features: as a person, one can use the date and place of birth and death; as a composer, once can consider the musical genre, the foreseen medium of performance (MoP), the key, \etc. of the compositions; as a performer, one can think of the function and role of the artist, the actual MoP played, \etc. during the performance. This information is representative of the career of an artist. We hypothesis that this kind of metadata plays an important role when one has to compute similarity between artists~\cite{he2017musicalkeys, mcfee09_hesas}.
+
+The DOREMUS dataset~\cite{achichi2015doremus} publicly exposes this kind of information as linked data through a SPARQL endpoint\footnote{\url{http://data.doremus.org}}. Alongside data about artists, works and performances, it includes a set of controlled vocabularies for keys, MoPs and genres, that define labels, definitions, hierarchies and other connections between over 9,000 entities.
+
+The distance between the embedding vectors in the Euclidean space is often used as similarity measure in the musical domain~\cite{moore12learningto, espinosa2017elmdist}, that have applications in music recommendation and playlists prediction.
+
+This work introduces some preliminary results about a new strategy for computing the similarity between two artists. This strategy relies on the combination of partial embeddings, computed at the level of the single features and concatenated in order to realise the artist embedding. This approach has several advantages: we can give weights to each feature and we can fully exploit the knowledge base. Moreover, we do not have to recompute the whole embedding for new artists, skipping in this case the most computationally expensive task.
+
+%%%%%%%%%%%%%%%%%%%%%
+%%%  2. Approach  %%%
+%%%%%%%%%%%%%%%%%%%%%
+
+\section{Approach}\label{sec:approach}
+
+\subsection{Feature Embeddings}\label{sec:feat_emb}
+We select the subset of features coming from the DOREMUS dataset (key, genre, MoP) for which their values are controlled by specific vocabularies, and in particular, when terms are defined with narrower-broader relationships. For each term, we compute an embedding applying \textit{node2vec}~\cite{node2vec-kdd2016} on two sub-graphs: the one of the controlled vocabularies and the one corresponding to the usage of their values in the DOREMUS dataset. A L2 normalisation is then applied in order to have values in \{-1;+1\}. One of the advantages of having feature-specific vectors is the possibility of reusing them in different contexts (i.e. similarity of composer, performers, works, \etc).
+
+\subsection{Embeddings Combination}\label{sec:emb_comb}
+The generation of the artist embedding is realised through the combination of its corresponding feature embedding. This step is driven by a configuration file that contains a series of properties and, for each of them, a query for the SPARQL endpoint (in which the artist is a parameter) and, eventually, the embedding vector to rely on.
+
+For each feature and for each result of the query, we get: 
+\begin{itemize}[nolistsep]
+    \item if the result is an entity, the relative vector;
+    \item if the result is a date or a number, the same number mapped in \{-1;+1\};
+    \item if there are no results (i.e. unknown values or not applicable property to particular works), an array of null values of the same length as it should be.
+\end{itemize}
+
+The mean of the different results belonging to the same feature is then computed, in order to have a unique vector. The artist vector is realised through the concatenation of each feature mean vector.
+
+\subsection{Similarity Score}
+\begin{table*}[htbp]
+\begin{center}
+\begin{tabular}{l|l|l|l|l|l|l|l}
+\textbf{Artist 1} & \textbf{Artist 2} & \textbf{Score} & \textbf{MoP} & \textbf{Genre} & \textbf{Key} & \textbf{Birth dates} & \textbf{Death dates} \\ \hline
+\multicolumn{1}{l}{A. Vivaldi} & \multicolumn{1}{|l|}{T. Albinoni} & \multicolumn{1}{|l|}{0.999985} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}continuo\\ string orchestra\\ violin\end{tabular}} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}concert\\ 17th century\\ sonata\end{tabular}} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}F\\ Bb\\ g\end{tabular}} & \multicolumn{1}{l|}{1678 - 1671} & \multicolumn{1}{l}{1741 - 1750} \\ \hline
+\multicolumn{1}{l|}{W. A. Mozart} & \multicolumn{1}{l|}{L. v. Beethoven} & \multicolumn{1}{l|}{0.999973} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}voice\\ piano\\ full orchestra\end{tabular}} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}concert\\ sonata\\ quartet\end{tabular}} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Eb\\ C\\ D\end{tabular}} & \multicolumn{1}{l|}{1956 - 1770} & \multicolumn{1}{l}{1791 - 1827} \\ \hline
+\multicolumn{1}{l|}{J. Coltrane} & \multicolumn{1}{l|}{J. Kern} & \multicolumn{1}{l|}{0.999972} & \multicolumn{1}{l|}{--} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}jazz\\ trio\end{tabular}} & \multicolumn{1}{l|}{\begin{tabular}[c]{@{}l@{}}Ab\\ Eb\end{tabular}} & \multicolumn{1}{l|}{1926 - 1885} & \multicolumn{1}{l}{1967 - 1945} \\ 
+\hline
+\end{tabular}
+\label{tab:explanation}
+\caption{Artist similarity explanation examples.}
+\end{center}
+\end{table*}
+
+We want to compute a similarity score between a seed artist $s$ and a target one $t$. As seen in Section~\ref{sec:feat_emb}, their vectors can contains some null dimensions, which we do not want to consider. Therefore, we remove from both vectors all the dimensions that are null for any of them. On this shorter version of the vectors, we compute the squared euclidean distance $d$. Defining $d_{max}$ as the distance between an all-ones vector and its additive inverse one, we compute the score according to the following formula:
+
+$$similarity =\frac{d_{max} - d}{\mid d_{max} \mid} * (1-penalty)$$
+
+where the $penalty$ is the percentage of the dimensions missing in $t$ but present in $s$ among all the properties in $s$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  3. Similarity Explanation  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Similarity Explanation}
+With the double goal of having a feedback about the similarity score and of producing a visualisation for user interfaces, we are extracting the most similar feature values between two artists. For each feature, we perform the same queries contained in the configuration file described in Section~\ref{sec:emb_comb}. Then, we compare the results and select the ones that have highest similarity (i.e. same or most similar genres), giving priority to the most present ones. Table~\ref{tab:explanation} shows some examples of two classical composer couples (for which we have more data) and a jazz one.
+
+We integrate this implementation within the \textsc{Overture}\footnote{\url{http://overture.doremus.org/artist}} application~\cite{lisena2016exploring} that provides a user friendly interface to browse and explore the DOREMUS dataset.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%  4. Conclusion and Future Work  %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conclusion and Future Work}
+\label{sec:conclusion}
+In this paper, we present some preliminary results for computing similarity between music-related entities (artists, works, performances) using embeddings that take into account both the static description of those entities as well as usage in musical datasets.
+
+As future work, we aim to further enrich the DOREMUS dataset with new data. The feature embeddings of the properties will then be improved, for example, using ``same as'' links between the different controlled vocabularies. New embeddings will be produced for functions, responsibilities and places, after the integration of this vocabularies in the dataset. Next, we plan to experiment with neural networks in order to assign different weights to the contribution of each dimension in the similarity score. We will also follow a similar approach to compute similarities not only between artists, but also between two works, two expressions or two concerts. Finally, we aim to work on dimensionality reduction in order to solve the problem of the curse of dimensionality (that has so far no relevant effects because of a limitation in the dimension at the feature embeddings level), optimising in the same time the computation of similarity so that it becomes fast enough to be included in a recommender system for works and playlists.
+
+\vspace{2mm} 
+\noindent
+\textbf{Acknowledgement.}
+This work has been partially supported by the French National Research Agency (ANR) within the DOREMUS Project, under grant number ANR-14-CE24-0020.
+
+\bibliography{ISMIRtemplate}
+
+\end{document}

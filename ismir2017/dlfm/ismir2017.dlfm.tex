@@ -4,6 +4,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[sigconf]{acmart}
+\settopmatter{printacmref=false}
 
 \usepackage{booktabs} % For formal tables
 \usepackage{listings}
@@ -17,33 +18,15 @@
 \newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
 \makeatother
 
-% Copyright
-%\setcopyright{none}
-%\setcopyright{acmcopyright}
-%\setcopyright{acmlicensed}
-%\setcopyright{rightsretained}
-%\setcopyright{usgov}
-%\setcopyright{usgovmixed}
-%\setcopyright{cagov}
-%\setcopyright{cagovmixed}
 
-% DOI
-%\acmDOI{10.475/123_4}
-
-% ISBN
-\acmISBN{978-1-4503-5347-2}
-
-%Conference
-\acmConference[DLfM'17]{4th International Digital Libraries for Musicology workshop}{October 2017}{Shanghai, China} 
-\acmYear{2017}
-\copyrightyear{2017}
-%\acmPrice{15.00}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%  Beginning of document  %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
+
+
 \title{Modeling the Complexity of Music Metadata in Semantic Graphs for Exploration and Discovery}
 
 \author{Pasquale Lisena,~~~Rapha\"el Troncy}
@@ -63,6 +46,7 @@
 
 
 % The default list of authors is too long for headers}
+\renewcommand{\authors}{Pasquale Lisena, Rapha\"el Troncy, Konstantin Todorov, and Manel Achichi}
 \renewcommand{\shortauthors}{P. Lisena et al.}
 \renewcommand{\shorttitle}{Modeling the Complexity of Music Metadata in Semantic Graphs}
 
@@ -109,9 +93,17 @@ Representing and retrieving fine-grained information related to something as com
 \ccsdesc[500]{Information systems~Music retrieval}
 \ccsdesc[300]{Information systems~Semantic web description languages}
 
+
 \keywords{Ontology, FRBRoo, Music Metadata, Linked Data, Data Interlinking}
 
-%\acmBadgeR{artifacts_available}
+%Conference
+\copyrightyear{2017} 
+\acmYear{2017} 
+\setcopyright{acmlicensed}
+\acmConference[DLfM '17]{4th International Workshop on Digital Libraries for Musicology}{October 28, 2017}{Shanghai, China}
+\acmPrice{}
+\acmDOI{10.1145/3144749.3144754}
+\acmISBN{978-1-4503-5347-2/17/10}
 
 \maketitle
 
