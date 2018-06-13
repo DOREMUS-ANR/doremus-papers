@@ -1,0 +1,73 @@
+\section{The DOREMUS Datasets of Linked Musical Works} \label{sec:doremus}
+The DOREMUS knowledge graph consists of several datasets, each  containing the information coming from a specific database of an institution. In that, a given real-world entity (e.g., a music work) is represented at most once in each graph. %As a consequence, \textit{intra}-dataset linking is not needed, while \textit{inter}-dataset linking is required. 
+Currently, three stable datasets have been published: {\bf (1)} \texttt{bnf}: Works and Artists, originally described in MARC records of the BnF; {\bf (2)} \texttt{philharmonie}: Works and Concerts, originally described in MARC records of the PP; {\bf (3)} \texttt{itema3}: Concerts and Recordings, originally described in XML records of RF. Each dataset has two access points: (1) A specific named graph in the DOREMUS triplestore, accessible through a public SPARQL endpoint. Each graph follows the pattern \url{http://data.doremus.org/<dataset_name>}. (2) A set of RDF files in Turtle format, available to public download. All datasets are licensed for free distribution, following a Creative Commons Attribution 4.0 license\footnote{\url{https://creativecommons.org/licenses/by/4.0/}} and have a DCAT description in the triplestore itself. All links to DOREMUS datasets or tools are given in Table~\ref{tab:links}. \begin{table}[htbp]
+\begin{center} \scriptsize
+\begin{tabular}{ll}
+{\bf Name of resource or tool and description,  URL } \\ %\hline
+ {\bf Data}   \\ %\hline
+{\tt bnf}: Works and Artists from the BnF,   \url{http://data.doremus.org/bnf}  \\ 
+{\tt philharmonie}: Works and Concerts from the PP,  \url{http://data.doremus.org/philharmonie}  \\ 
+{\tt itema3}: Concerts and Recordings from RF,  \url{http://data.doremus.org/itema3}  \\ DOREMUS triplestore,  \url{https://github.com/DOREMUS-ANR/knowledge-base/tree/master/data}  \\ 
+DOREMUS sparql endpoint,   \url{http://data.doremus.org/sparql}  \\ 
+Example queries,  \url{http://data.doremus.org/queries.html}  \\ 
+DOREMUS ontology,   \url{http://data.doremus.org/ontology}  \\
+DOREMUS vocabularies,  \url{https://github.com/DOREMUS-ANR/knowledge-base/tree/master/vocabularies}  \\ 
+Vocab. Alignments,  \url{https://github.com/DOREMUS-ANR/knowledge-base/tree/master/vocabularies/alignments}  \\ 
+DOREMUS linked data, \url{https://github.com/DOREMUS-ANR/knowledge-base/tree/master/linked-data}  \\ 
+DOREMUS benchmarks 2016, \url{http://islab.di.unimi.it/content/im_oaei/2016/#doremus} \\
+DOREMUS benchmarks 2017,  \url{http://islab.di.unimi.it/content/im_oaei/2017/#doremus} \\
+{\bf Tools}   \\ %\hline
+{\tt marc2rdf} converter,  \url{https://github.com/DOREMUS-ANR/marc2rdf}  \\ 
+{\tt itema3} converter,  \url{https://github.com/DOREMUS-ANR/itema3converter}  \\ 
+{\tt euterpe} converter,  \url{https://github.com/DOREMUS-ANR/euterpe-converter}  \\ 
+{\it Legato}: instance matcher,  \url{https://github.com/DOREMUS-ANR/legato}  \\ 
+DOREMUS pivot graph constructor,  \url{https://github.com/DOREMUS-ANR/pivot-graph-constructor}  \\ 
+{\sc Overture} search engine,  \url{http://overture.doremus.org}  \\
+YAM++ vocabulary mapping and validation,  \url{http://yamplusplus.lirmm.fr}  \\ 
+Learning materials, \url{https://github.com/DOREMUS-ANR/training}  \\ 
+% \hline
+\end{tabular}
+\smallskip
+\captionof{table}{Links to DOREMUS resources and tools.}
+\label{tab:links}
+\end{center}
+\end{table}
+\vspace{-1.5cm}
+\subsection{Content and Form of the Resource}
+The DOREMUS knowledge graphs contain information about works (referred to as {\it expressions}) and related entities from the field of classical and traditional music. Each entity is identified by an univocal persistent URI, which follows the pattern \texttt{http://data.doremus.org/<group>/<uuid>}, where the group is determined by the class of the entity (e.g. \texttt{expression}) and the UUID (Universal Unique Identifier) is generated at conversion time in a deterministic way using the dataset name, the class and the identifier of the source record as seed.\footnote{\url{https://github.com/DOREMUS-ANR/marc2rdf/blob/master/URI.patterns.md}} Currently, the resource is shaped by three knowledge graphs of music works (one per institution), that are linked together in a pivot graph, which is the union of all unique expressions across the three bases, together with {\tt owl:sameAs} links to the original graphs (cf. Section \ref{sec:develop}). We find information pertaining to the instruments, genre and key of a music work (e.g., ``piano", ``sonata", ``A-flat major"), its composer and title(s), date of creation, catalog numbers, opus numbers, etc. As an example, we can find all this information linked to \url{http://data.doremus.org/expression/d72301f0-0aba-3ba6-93e5-c4efbee9c6ea}, representing \\Beethoven's \textit{Moonlight Sonata}. Jazz music would contain a different kind of information, as in \url{http://data.doremus.org/expression/cc7fc9a6-124d-3cc1-\\95e7-5644ecb394a6}, representing Coltrane's {\it Naima}.%\footnote{World music will be exposed after conversion.} 
+
+\subsection{(Re-)used Ontologies and Vocabularies} 
+The DOREMUS model is an ontology for the description of music catalogs. It is an extension for the music domain of the FRBRoo model for describing librarian information, which has in turn been born as a dialog of the librarian FRBR model and the CIDOC-CRM ontology for representing museum information, putting togheter the distinction between Work, Expression, Manifestation, Item of the former with the centrality of creation events for describing the cultural object lifecycle coming from the latter~\cite{doerr2008frbroo}. On top of the FRBRoo original classes and properties, specific ones have been added in order to describe aspects of a work that are related to music, such as the musical key, the genre, the tempo, the medium of performance (MoP), etc.~\cite{choffe2016doremus}. The model is ready to be used for describing the interconnection of different arts: it is the case of the soundtrack of a movie, or a song that uses the text of a poem.
+
+DOREMUS imports the Work-Expression-Event triplet\footnote{Not to be confused with an RDF triple.} pattern of FRBRoo: the abstract intention of the author (Work) exists only through an Event (i.e. the composition) that realizes it in a distinct series of choices called Expression(s). This pattern ensures that each step of the life of a musical work can be modeled separately, following the same triplet structure. Thinking about a classic work, we will have a triplet for the composition, one for any performance event, one for every manifestation (e.g., the score), all connected in the graph. This means also that each part of the music production process is considered as an Event that gives birth to a new Work and a new Expression: this leads to the creation of classes like Performance Work or Recording Expression. Each triplet contains information that at the same time can live autonomously and be linked to the other entities. This provides the freedom of representing, for example, a jazz improvisation as extemporaneous performance not connected to a particular pre-existing work, or to collect all the recordings of a piece of world music. The result is a model, which is quite complex and hard to adopt if we look at the levels of distribution of information: from an Expression, one has to pass through Event and Activity to reach a composer, or through Casting and Casting detail to get the MoP. On the other hand, the model has a very detailed expressiveness that allows, for instance, to describe different kinds of contributors (not only authors or performers), to detail the casting of a composition (with number, roles, notes for each instrument/voice), to specify performers at level of single performance inside a whole concert. As an extension of FRBRoo, the model appears familiar to librarian catalogers (documentation: \url{http://data.doremus.org/ontology}).
+
+For the description of music-specific concepts like the  key, the genre or the MoP, we publish controlled vocabularies (using SKOS and MODS standards), realized and enriched by an editorial process that involved also librarians, in order to overcome multilingualism and alternative names issues. Some of these vocabularies were already available and in use by the community: in this case our contribution consists in their collection, conversion to SKOS (if needed) and alignment. As a result, we collected, implemented and published 17 controlled vocabularies belonging to 7 different categories (musical keys, types of derivation, modes, thematic catalogs, functions, musical genres and MoP) (Table \ref{tab:links}) \cite{lisena2018vocabularies}. The vocabularies are all available in the DOREMUS triplestore server via its public SPARQL endpoint. Alternatively, they can be explored by a web browser starting from \url{http://data.doremus.org/vocabularies/}. Each vocabulary is licensed for free distribution, following a Creative Commons Attribution 4.0 license. 
+
+
+The categories of genres and MoPs contain each 6 different vocabularies, including well-established reference thesauri, as well as institution-specific lists. The vocabularies of these two categories have been aligned by establishing {\tt skos:\\exactMatch} relations between their elements in a pairwise manner using an automatic ontology and thesaurus matching system and these alignments have been manually validated and enriched by the experts of the three institutions. This process has been assisted by a dedicated generic web-application for ontology matching and mapping validation, YAM++ {\it online} \cite{bellahsene2017yam++}, developed in part for the purposes of the project (link available in Table \ref{tab:links}).
+
+% The following list reports the vocabularies that we have so far with the number of concepts in parenthesis:
+% \begin{enumerate}
+%  \item{Musical genres: Diabolo~(629), IAML~(607), Itema3~(212), Redomi~(313), RAMEAU~(654)}
+%  \item{Medium of performance: MIMO~(2480), Itema3~(314), IAML~(419), Diabolo~(2117), RAMEAU~(876), Redomi~(179) }
+%  \item{Musical keys\footnote{\label{newvoc}This vocabulary did not exist on the Web of Data before and have been designed entirely in the context of DOREMUS.} (29)}
+%  \item{Modes\footnoteref{newvoc} (22)}
+%  \item{Catalogues\footnoteref{newvoc} (151)}
+%  \item{Types of derivations\footnoteref{newvoc} (16)}
+%  \item{Functions\footnoteref{newvoc} (98)}
+% \end{enumerate}
+
+\paragraph{Statistics.}
+Currently, the DOREMUS dataset includes more than 16 million triples, which describe over 3 million distinct entities. The classes and properties used come mostly from the DOREMUS ontology, FRBRoo and CIDOC-CRM, counting in total 57 distinct classes and 120 distinct properties. Table \ref{tab:stats} summarizes the number of entities for the most representative classes and reports  details about the presence of specific information. 
+
+\begin{table}[htbp]
+	\centering
+ 	\csvautotabularleft{kb_stats.csv}
+	\caption{Number of entities of given classes for each dataset.}
+    \label{tab:stats}
+\end{table}
+
+\nopagebreak
+
+%\vspace{-1.5cm}
+

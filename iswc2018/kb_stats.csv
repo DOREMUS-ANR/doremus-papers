@@ -1,0 +1,13 @@
+class,bnf,philharmonie,itema3,total
+Expression,135818,9005,8319,153142
+- with casting detail,123219,4621,0,127840
+- with key,19645,1973,0,21618
+- with genre,128497,3820,8071,140388
+- with composer,133371,7741,8231,149343
+- with composition date,91566,5712,4856,102134
+- with catalogue,20796,2908,0,23704
+- with order number,11598,1612,0,13210
+- with opus number,21836,1985,0,23821
+Performance,15784,784,1531,18099
+- with more than 1 performed work,0,713,1277,1990
+Track,0,6538,18273,24811

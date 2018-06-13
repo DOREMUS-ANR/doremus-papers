@@ -1,0 +1,84 @@
+\documentclass[runningheads,a4paper]{llncs}
+\bibliographystyle{ieeetr}
+\usepackage{graphicx}
+% 
+\usepackage{mathabx}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{indentfirst}
+\usepackage{subcaption}
+\usepackage{todonotes}
+\newenvironment{frcseries}{\fontfamily{frc}\selectfont}{}
+\newcommand{\textfrc}[1]{{\frcseries#1}}
+\usepackage{array,multirow,makecell}
+\setcellgapes{1pt}
+\makegapedcells
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash }b{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash }b{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash }b{#1}}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{siunitx}
+\newcommand{\argmax}[1]{\underset{#1}{\operatorname{arg}\,\operatorname{max}}\;}
+\usepackage{algorithm,algorithmic}
+\usepackage{float}
+\usepackage{comment}
+\usepackage{lipsum}
+\usepackage{csvsimple}
+\usepackage{xstring}  
+
+\makeatletter
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+\makeatother
+
+\makeatletter
+\csvset{
+  autotabularleft/.style={
+    file=#1,
+    after head=\csv@pretable\begin{tabular}{|l|*{\csv@columncount}{r|}}\csv@tablehead,
+    table head=\hline\csvlinetotablerow\\\hline,
+    late after line=\IfBeginWith{\csvcoli}{-}{\\}{\\\hline},
+    table foot=\\\hline,
+    late after last line=\csv@tablefoot\end{tabular}\csv@posttable,
+    command=\csvlinetotablerow},
+}
+\makeatother
+\newcommand{\csvautotabularleft}[2][]{\csvloop{autotabularleft={#2},#1}}
+
+\title{DOREMUS: A Graph of Linked Musical Works}
+
+\titlerunning{}
+
+
+%\titlerunning{}
+
+\author{Manel Achichi,$^1$  Pasquale Lisena,$^2$   Konstantin Todorov,$^{1}$  Rapha\"el Troncy,$^2$ Jean Delahousse$^3$}
+\authorrunning{Achichi, Lisena, Todorov, Troncy, Delahousse}
+
+\institute{
+LIRMM, University of Montpellier, CNRS, France \\ \{\textbf{achichi, todorov}\}\textbf{@lirmm.fr}
+\and
+EURECOM, Sophia Antipolis, France \\ \{\textbf{pasquale.lisena, raphael.troncy}\}\textbf{@eurecom.fr}
+\and
+OUROUK, Paris, France \\ \textbf{delahousse.jean}\textbf{@gmail.com}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract} 
+Three major French cultural institutions---the French National Library (BnF), Radio France and the Philharmonie de Paris---have come together in order to develop shared methods to describe semantically their catalogs of music works and events. This process comprises the construction of knowledge graphs representing the data contained in these catalogs following a novel agreed upon ontology that extends CIDOC-CRM and FRBRoo, the linking of these graphs and their open publication on the web. A number of specialized tools  that allow for the reproduction of this process are developed, as well as web applications for easy access and navigation through the data. The paper presents one of the main outcomes of this project---the DOREMUS knowledge graph, consisting of three linked datasets describing classical music works and their associated events (e.g., performances in concerts). This resource fills an important gap between library content description and music metadata. We present the DOREMUS pipeline for lifting and linking the data, the tools developed for these purposes, as well as a search application allowing to explore the data.
+\end{abstract}
+
+\input{_intro}
+\input{_doremus}
+\input{_develop}
+\input{_use}
+\input{_relwork}
+\input{_conclusion}
+
+\section*{Acknowledgments}
+This work has been partially supported by the French National Research Agency within the DOREMUS project, under grant ANR-14-CE24-0020.
+
+\bibliography{bib}
+\end{document}

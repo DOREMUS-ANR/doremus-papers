@@ -1,0 +1,20 @@
+Name and/or Type, URL
+{\bf Data},
+{\tt bnf}: Works and Artists from the BnF,\url{http://data.doremus.org/bnf}
+{\tt philharmonie}: Works and Concerts from the PP,\url{http://data.doremus.org/philharmonie}
+{\tt itema3}: Concerts and Recordings from RF,\url{http://data.doremus.org/itema3}
+DOREMUS triplestore,\url{https://github.com/DOREMUS-ANR/knowledge-base/tree/master/data}
+DOREMUS sparql endpoint,\url{http://data.doremus.org/sparql}
+DOREMUS ontology,\url{http://data.doremus.org/ontology}
+DOREMUS vocabularies,\url{http://data.doremus.org/vocabularies/}
+Vocabulary Alignments,\url{https://github.com/DOREMUS-ANR/knowledge-base/tree/master/vocabularies/alignments}
+DOREMUS linked data,\url{https://github.com/DOREMUS-ANR/knowledge-base/tree/master/linked-data},
+Example queries,\url{http://data.doremus.org/queries.html}
+{\bf Tools},
+YAM++ vocabulary mapping and validation,\url{http://yamplusplus.lirmm.fr}
+{\tt marc2rdf} converter,\url{https://github.com/DOREMUS-ANR/marc2rdf}
+{\it Legato}: instance matcher,\url{https://github.com/DOREMUS-ANR/legato}
+DOREMUS pivot graph constructor,\url{https://github.com/DOREMUS-ANR/pivot-graph-constructor}
+{\sc Overture} search engine,\url{http://overture.doremus.org}
+Learning material,\url{https://github.com/DOREMUS-ANR/training/blob/master/DOREMUS_learning_material_datamodel_article.pdf}
+
